@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  otl-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: [ "--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otl-collector/collector-config.yaml:/etc/otelcol/config.yaml
+    ports:
+      - 4318:4318
+      - 4317:4317 
+      - 55679:55679
+    hostname: otl-collector
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+      - kibana
+      - fleet-server
+      - apm-server
+
+volumes:
+  otl-collector:
